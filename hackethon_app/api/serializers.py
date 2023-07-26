@@ -8,7 +8,7 @@ class HackethonSerializer(serializers.ModelSerializer):
     username = serializers.StringRelatedField(read_only=True)
     class Meta:
         model = Hackethon
-        fields = ['title', 'description', 'background_image', 'hackethon_image', 'start_at', 'ends_at', 'username']
+        fields = '__all__'
 
 
 class HackethonSerializerForCreate(serializers.ModelSerializer):

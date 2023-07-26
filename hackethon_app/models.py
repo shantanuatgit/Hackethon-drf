@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 class Hackethon(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
+    prize = models.CharField(max_length=10, default='$500')
     background_image = models.ImageField(upload_to='static/')
     hackethon_image = models.ImageField(upload_to='static/')
     start_at = models.DateTimeField()

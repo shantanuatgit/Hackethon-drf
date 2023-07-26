@@ -73,17 +73,23 @@ class HackethonSubmissionCreate(generics.CreateAPIView):
     
     def perform_create(self, serializer):
         pk = self.kwargs.get('pk')
+        hackethon_name = Hackethon.objects.get(pk=pk)
+        username = self.request.user
         try:
-            registered_hackethon = HackethonRegistration.objects.get(pk=pk)
+            registered_hackethon = HackethonRegistration.objects.filter(hackethon_name=hackethon_name, username=username)
+            submitted = HackethonRegistration.objects.get(hackethon_name=hackethon_name, username=username)
+            # registered_hackethon.get(username=username)
+            # print(registered_hackethon)
         except:
             raise ValidationError("you are not registered to this Hackethon.")
 
         
-        submitted_queryset = HackethonSubmission.objects.filter(hackethon_name=registered_hackethon)
+        submitted_queryset = HackethonSubmission.objects.filter(hackethon_name=submitted, hackethon_name__username=username)
+        
         if submitted_queryset.exists():
             raise ValidationError("you have already submitted.")
         
-        serializer.save(hackethon_name=registered_hackethon)
+        serializer.save(hackethon_name=submitted)
     
 
 
